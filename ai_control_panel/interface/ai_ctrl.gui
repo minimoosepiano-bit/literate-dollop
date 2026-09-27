@@ -1,0 +1,326 @@
+###############################################################################
+# AI Control Panel - interface
+# Generated layout; textures live in gfx/interface/ai_control_panel/.
+###############################################################################
+
+guiTypes = {
+
+	# Small launcher button. Drag it anywhere you like.
+	containerWindowType = {
+		name = "ai_ctrl_launcher_window"
+		position = { x = 8 y = -44 }
+		size = { width = 150 height = 36 }
+		orientation = "LOWER_LEFT"
+		moveable = yes
+
+		buttonType = {
+			name = "launcher_button"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_ai_ctrl_launcher"
+			buttonText = "AI_CTRL_LAUNCHER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_LAUNCHER_TT"
+		}
+
+		iconType = {
+			name = "launcher_active_light"
+			spriteType = "GFX_ai_ctrl_light"
+			position = { x = 128 y = 12 }
+		}
+	}
+
+	# Main panel
+	containerWindowType = {
+		name = "ai_ctrl_panel_window"
+		position = { x = 0 y = 0 }
+		size = { width = 620 height = 552 }
+		orientation = "CENTER"
+		origo = "CENTER"
+		moveable = yes
+
+		background = {
+			name = "ai_ctrl_panel_bg"
+			spriteType = "GFX_ai_ctrl_panel_bg"
+		}
+
+		instantTextBoxType = {
+			name = "title"
+			position = { x = 24 y = 16 }
+			textureFile = ""
+			font = "hoi_18mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_TITLE"
+			maxWidth = 500
+			maxHeight = 30
+			format = left
+		}
+
+		buttonType = {
+			name = "close_button"
+			position = { x = 576 y = 14 }
+			spriteType = "GFX_ai_ctrl_close"
+			pdx_tooltip = "AI_CTRL_CLOSE_TT"
+		}
+
+		instantTextBoxType = {
+			name = "subtitle"
+			position = { x = 24 y = 60 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_SUBTITLE"
+			maxWidth = 572
+			maxHeight = 36
+			format = left
+		}
+
+		# ---- production ----
+		instantTextBoxType = {
+			name = "production_name"
+			position = { x = 40 y = 112 }
+			textureFile = ""
+			font = "hoi_18mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_PRODUCTION_NAME"
+			maxWidth = 400
+			maxHeight = 22
+			format = left
+		}
+		instantTextBoxType = {
+			name = "production_desc"
+			position = { x = 40 y = 134 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_PRODUCTION_DESC"
+			maxWidth = 400
+			maxHeight = 36
+			format = left
+		}
+		instantTextBoxType = {
+			name = "production_stats"
+			position = { x = 40 y = 168 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_PRODUCTION_STATS"
+			maxWidth = 400
+			maxHeight = 20
+			format = left
+		}
+		buttonType = {
+			name = "production_toggle_on"
+			position = { x = 460 y = 114 }
+			spriteType = "GFX_ai_ctrl_toggle_on"
+			buttonText = "AI_CTRL_STATE_AI"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_ON_TT"
+		}
+		buttonType = {
+			name = "production_toggle_off"
+			position = { x = 460 y = 114 }
+			spriteType = "GFX_ai_ctrl_toggle_off"
+			buttonText = "AI_CTRL_STATE_PLAYER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_OFF_TT"
+		}
+
+		# ---- naval ----
+		instantTextBoxType = {
+			name = "naval_name"
+			position = { x = 40 y = 208 }
+			textureFile = ""
+			font = "hoi_18mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_NAVAL_NAME"
+			maxWidth = 400
+			maxHeight = 22
+			format = left
+		}
+		instantTextBoxType = {
+			name = "naval_desc"
+			position = { x = 40 y = 230 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_NAVAL_DESC"
+			maxWidth = 400
+			maxHeight = 36
+			format = left
+		}
+		instantTextBoxType = {
+			name = "naval_stats"
+			position = { x = 40 y = 264 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_NAVAL_STATS"
+			maxWidth = 400
+			maxHeight = 20
+			format = left
+		}
+		buttonType = {
+			name = "naval_toggle_on"
+			position = { x = 460 y = 210 }
+			spriteType = "GFX_ai_ctrl_toggle_on"
+			buttonText = "AI_CTRL_STATE_AI"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_ON_TT"
+		}
+		buttonType = {
+			name = "naval_toggle_off"
+			position = { x = 460 y = 210 }
+			spriteType = "GFX_ai_ctrl_toggle_off"
+			buttonText = "AI_CTRL_STATE_PLAYER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_OFF_TT"
+		}
+
+		# ---- construction ----
+		instantTextBoxType = {
+			name = "construction_name"
+			position = { x = 40 y = 304 }
+			textureFile = ""
+			font = "hoi_18mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_CONSTRUCTION_NAME"
+			maxWidth = 400
+			maxHeight = 22
+			format = left
+		}
+		instantTextBoxType = {
+			name = "construction_desc"
+			position = { x = 40 y = 326 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_CONSTRUCTION_DESC"
+			maxWidth = 400
+			maxHeight = 36
+			format = left
+		}
+		instantTextBoxType = {
+			name = "construction_stats"
+			position = { x = 40 y = 360 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_CONSTRUCTION_STATS"
+			maxWidth = 400
+			maxHeight = 20
+			format = left
+		}
+		buttonType = {
+			name = "construction_toggle_on"
+			position = { x = 460 y = 306 }
+			spriteType = "GFX_ai_ctrl_toggle_on"
+			buttonText = "AI_CTRL_STATE_AI"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_ON_TT"
+		}
+		buttonType = {
+			name = "construction_toggle_off"
+			position = { x = 460 y = 306 }
+			spriteType = "GFX_ai_ctrl_toggle_off"
+			buttonText = "AI_CTRL_STATE_PLAYER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_OFF_TT"
+		}
+		buttonType = {
+			name = "construction_strategy_button"
+			position = { x = 460 y = 346 }
+			spriteType = "GFX_ai_ctrl_button_small"
+			buttonText = "AI_CTRL_STRATEGY_BUTTON"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_STRATEGY_BUTTON_TT"
+		}
+
+		# ---- research ----
+		instantTextBoxType = {
+			name = "research_name"
+			position = { x = 40 y = 400 }
+			textureFile = ""
+			font = "hoi_18mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_RESEARCH_NAME"
+			maxWidth = 400
+			maxHeight = 22
+			format = left
+		}
+		instantTextBoxType = {
+			name = "research_desc"
+			position = { x = 40 y = 422 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_RESEARCH_DESC"
+			maxWidth = 400
+			maxHeight = 36
+			format = left
+		}
+		instantTextBoxType = {
+			name = "research_stats"
+			position = { x = 40 y = 456 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_RESEARCH_STATS"
+			maxWidth = 400
+			maxHeight = 20
+			format = left
+		}
+		buttonType = {
+			name = "research_toggle_on"
+			position = { x = 460 y = 402 }
+			spriteType = "GFX_ai_ctrl_toggle_on"
+			buttonText = "AI_CTRL_STATE_AI"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_ON_TT"
+		}
+		buttonType = {
+			name = "research_toggle_off"
+			position = { x = 460 y = 402 }
+			spriteType = "GFX_ai_ctrl_toggle_off"
+			buttonText = "AI_CTRL_STATE_PLAYER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_TOGGLE_OFF_TT"
+		}
+		buttonType = {
+			name = "research_lock_button"
+			position = { x = 460 y = 442 }
+			spriteType = "GFX_ai_ctrl_button_small"
+			buttonText = "AI_CTRL_LOCK_BUTTON"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_LOCK_BUTTON_TT"
+		}
+
+		# ---- footer ----
+		buttonType = {
+			name = "enable_all_button"
+			position = { x = 24 y = 496 }
+			spriteType = "GFX_ai_ctrl_button"
+			buttonText = "AI_CTRL_ENABLE_ALL"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_ENABLE_ALL_TT"
+		}
+		buttonType = {
+			name = "disable_all_button"
+			position = { x = 196 y = 496 }
+			spriteType = "GFX_ai_ctrl_button"
+			buttonText = "AI_CTRL_DISABLE_ALL"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "AI_CTRL_DISABLE_ALL_TT"
+		}
+		instantTextBoxType = {
+			name = "footer_hint"
+			position = { x = 372 y = 498 }
+			textureFile = ""
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "AI_CTRL_FOOTER_HINT"
+			maxWidth = 224
+			maxHeight = 32
+			format = left
+		}
+	}
+}

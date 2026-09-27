@@ -1,0 +1,149 @@
+###############################################################################
+# AI Control Panel - core effects (init, weekly driver, GUI helpers)
+#
+# Every effect in this mod runs in COUNTRY scope with ROOT = the player.
+#
+# Country flags used as module switches:
+#   ai_ctrl_production    - AI assigns idle military factories
+#   ai_ctrl_naval         - AI assigns idle dockyards
+#   ai_ctrl_construction  - AI keeps the construction queue busy
+#   ai_ctrl_research      - AI picks and completes technologies
+#   ai_ctrl_research_lock_enabled - while AI research is on, freeze the
+#                                   player's own research slots (fairness)
+###############################################################################
+
+ai_ctrl_init = {
+	if = {
+		limit = { NOT = { has_country_flag = ai_ctrl_initialized } }
+		set_country_flag = ai_ctrl_initialized
+		set_country_flag = ai_ctrl_research_lock_enabled
+
+		# 0 = auto (AI heuristic), 1 = civilian first, 2 = military first
+		set_variable = { ai_ctrl_con_strategy = 0 }
+
+		# statistics shown in the panel
+		set_variable = { ai_ctrl_prod_lines = 0 }
+		set_variable = { ai_ctrl_naval_lines = 0 }
+		set_variable = { ai_ctrl_con_queued = 0 }
+		set_variable = { ai_ctrl_res_done = 0 }
+
+		# internal bookkeeping
+		set_variable = { ai_ctrl_con_backlog = 0 }
+		set_variable = { ai_ctrl_con_rotor = 0 }
+		set_variable = { ai_ctrl_res_progress = 0 }
+		set_variable = { ai_ctrl_res_cost = 130 }
+		set_variable = { ai_ctrl_res_pct = 0 }
+		set_variable = { ai_ctrl_res_rotor = 0 }
+		set_variable = { ai_ctrl_res_bonus = 0 }
+		set_variable = { ai_ctrl_research_lock_value = 0 }
+	}
+}
+
+# Called once a week from on_actions for every human-controlled country.
+ai_ctrl_weekly_tick = {
+	if = {
+		limit = { has_country_flag = ai_ctrl_production }
+		ai_ctrl_run_production = yes
+	}
+	if = {
+		limit = { has_country_flag = ai_ctrl_naval }
+		ai_ctrl_run_naval = yes
+	}
+	if = {
+		limit = { has_country_flag = ai_ctrl_construction }
+		ai_ctrl_run_construction = yes
+	}
+	if = {
+		limit = { has_country_flag = ai_ctrl_research }
+		ai_ctrl_run_research = yes
+	}
+	else = {
+		# make sure the lock never lingers after research was handed back
+		ai_ctrl_remove_research_lock = yes
+	}
+}
+
+###############################################################################
+# Module switches (used by the GUI buttons)
+###############################################################################
+
+ai_ctrl_enable_production = {
+	set_country_flag = ai_ctrl_production
+	# react immediately instead of waiting for the weekly tick
+	ai_ctrl_run_production = yes
+}
+ai_ctrl_disable_production = {
+	clr_country_flag = ai_ctrl_production
+}
+
+ai_ctrl_enable_naval = {
+	set_country_flag = ai_ctrl_naval
+	ai_ctrl_run_naval = yes
+}
+ai_ctrl_disable_naval = {
+	clr_country_flag = ai_ctrl_naval
+}
+
+ai_ctrl_enable_construction = {
+	set_country_flag = ai_ctrl_construction
+}
+ai_ctrl_disable_construction = {
+	clr_country_flag = ai_ctrl_construction
+	# forget our estimate of queued work; the player owns the queue again
+	set_variable = { ai_ctrl_con_backlog = 0 }
+}
+
+ai_ctrl_enable_research = {
+	set_country_flag = ai_ctrl_research
+	ai_ctrl_update_research_lock = yes
+	ai_ctrl_update_research_cost = yes
+}
+ai_ctrl_disable_research = {
+	clr_country_flag = ai_ctrl_research
+	ai_ctrl_remove_research_lock = yes
+}
+
+ai_ctrl_enable_all = {
+	if = {
+		limit = { NOT = { has_country_flag = ai_ctrl_production } }
+		ai_ctrl_enable_production = yes
+	}
+	if = {
+		limit = { NOT = { has_country_flag = ai_ctrl_naval } }
+		ai_ctrl_enable_naval = yes
+	}
+	if = {
+		limit = { NOT = { has_country_flag = ai_ctrl_construction } }
+		ai_ctrl_enable_construction = yes
+	}
+	if = {
+		limit = { NOT = { has_country_flag = ai_ctrl_research } }
+		ai_ctrl_enable_research = yes
+	}
+}
+
+ai_ctrl_disable_all = {
+	ai_ctrl_disable_production = yes
+	ai_ctrl_disable_naval = yes
+	ai_ctrl_disable_construction = yes
+	ai_ctrl_disable_research = yes
+}
+
+ai_ctrl_cycle_construction_strategy = {
+	add_to_variable = { ai_ctrl_con_strategy = 1 }
+	if = {
+		limit = { check_variable = { ai_ctrl_con_strategy > 2 } }
+		set_variable = { ai_ctrl_con_strategy = 0 }
+	}
+}
+
+ai_ctrl_toggle_research_lock = {
+	if = {
+		limit = { has_country_flag = ai_ctrl_research_lock_enabled }
+		clr_country_flag = ai_ctrl_research_lock_enabled
+	}
+	else = {
+		set_country_flag = ai_ctrl_research_lock_enabled
+	}
+	ai_ctrl_update_research_lock = yes
+}

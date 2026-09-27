@@ -1,0 +1,71 @@
+###############################################################################
+# AI Control Panel - scripted triggers
+#
+# All triggers here are evaluated with ROOT = the player's country.
+###############################################################################
+
+# COUNTRY scope: is at least one AI module switched on?
+ai_ctrl_any_module_active = {
+	OR = {
+		has_country_flag = ai_ctrl_production
+		has_country_flag = ai_ctrl_naval
+		has_country_flag = ai_ctrl_construction
+		has_country_flag = ai_ctrl_research
+	}
+}
+
+# COUNTRY scope: should the manual-research lock be applied right now?
+ai_ctrl_research_lock_wanted = {
+	has_country_flag = ai_ctrl_research
+	has_country_flag = ai_ctrl_research_lock_enabled
+}
+
+# STATE scope: best place for a new factory - a core with room for several
+# more factories that has not received an AI project recently.
+ai_ctrl_is_prime_factory_state = {
+	is_core_of = ROOT
+	is_controlled_by = ROOT
+	NOT = { has_state_flag = ai_ctrl_recent_factory }
+	free_building_slots = {
+		building = industrial_complex
+		size > 1
+		include_locked = no
+	}
+}
+
+# STATE scope: a core with at least one free factory slot.
+ai_ctrl_is_core_factory_state = {
+	is_core_of = ROOT
+	is_controlled_by = ROOT
+	NOT = { has_state_flag = ai_ctrl_recent_factory }
+	free_building_slots = {
+		building = industrial_complex
+		size > 0
+		include_locked = no
+	}
+}
+
+# STATE scope: any owned and controlled state with a free factory slot
+# (non-cores suffer the usual compliance / core penalties, so they come last).
+ai_ctrl_is_any_factory_state = {
+	is_owned_by = ROOT
+	is_controlled_by = ROOT
+	NOT = { has_state_flag = ai_ctrl_recent_factory }
+	free_building_slots = {
+		building = industrial_complex
+		size > 0
+		include_locked = no
+	}
+}
+
+# STATE scope: a core whose infrastructure can still be upgraded.
+ai_ctrl_is_infrastructure_state = {
+	is_core_of = ROOT
+	is_controlled_by = ROOT
+	NOT = { has_state_flag = ai_ctrl_recent_infrastructure }
+	free_building_slots = {
+		building = infrastructure
+		size > 0
+		include_locked = no
+	}
+}

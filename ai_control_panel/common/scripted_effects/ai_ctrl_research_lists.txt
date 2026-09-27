@@ -1,0 +1,869 @@
+###############################################################################
+# AI Control Panel - research priority lists
+#
+# GENERATED FILE - edit tools/gen_research.py and re-run it instead.
+#
+# Each ai_ctrl_research_try_<category> effect grants the first technology in
+# its list that the country can research (and whose year has come), then
+# sets the temp variable ai_ctrl_picked = 1.  It does nothing if
+# ai_ctrl_picked is already 1.
+###############################################################################
+
+ai_ctrl_research_try_industry = {
+	if = {
+		limit = { check_variable = { ai_ctrl_picked = 0 } }
+		if = {
+			limit = {
+				can_research = basic_machine_tools
+			}
+			set_technology = { basic_machine_tools = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = concentrated_industry
+			}
+			set_technology = { concentrated_industry = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = dispersed_industry
+			}
+			set_technology = { dispersed_industry = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = construction1
+			}
+			set_technology = { construction1 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = excavation1
+			}
+			set_technology = { excavation1 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = fuel_silos
+			}
+			set_technology = { fuel_silos = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = synth_oil_experiments
+			}
+			set_technology = { synth_oil_experiments = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1937.1.1
+				can_research = concentrated_industry2
+			}
+			set_technology = { concentrated_industry2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1937.1.1
+				can_research = dispersed_industry2
+			}
+			set_technology = { dispersed_industry2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = construction2
+			}
+			set_technology = { construction2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = excavation2
+			}
+			set_technology = { excavation2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = fuel_refining
+			}
+			set_technology = { fuel_refining = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = oil_processing
+			}
+			set_technology = { oil_processing = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = improved_machine_tools
+			}
+			set_technology = { improved_machine_tools = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = concentrated_industry3
+			}
+			set_technology = { concentrated_industry3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = dispersed_industry3
+			}
+			set_technology = { dispersed_industry3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = construction3
+			}
+			set_technology = { construction3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = excavation3
+			}
+			set_technology = { excavation3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = improved_oil_processing
+			}
+			set_technology = { improved_oil_processing = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = concentrated_industry4
+			}
+			set_technology = { concentrated_industry4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = dispersed_industry4
+			}
+			set_technology = { dispersed_industry4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = advanced_machine_tools
+			}
+			set_technology = { advanced_machine_tools = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = construction4
+			}
+			set_technology = { construction4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = excavation4
+			}
+			set_technology = { excavation4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = advanced_oil_processing
+			}
+			set_technology = { advanced_oil_processing = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = concentrated_industry5
+			}
+			set_technology = { concentrated_industry5 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = dispersed_industry5
+			}
+			set_technology = { dispersed_industry5 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1944.1.1
+				can_research = construction5
+			}
+			set_technology = { construction5 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1944.1.1
+				can_research = excavation5
+			}
+			set_technology = { excavation5 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+	}
+}
+
+ai_ctrl_research_try_land = {
+	if = {
+		limit = { check_variable = { ai_ctrl_picked = 0 } }
+		if = {
+			limit = {
+				can_research = infantry_weapons
+			}
+			set_technology = { infantry_weapons = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = support_weapons
+			}
+			set_technology = { support_weapons = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = tech_support
+			}
+			set_technology = { tech_support = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = tech_engineers
+			}
+			set_technology = { tech_engineers = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = tech_recon
+			}
+			set_technology = { tech_recon = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = motorised_infantry
+			}
+			set_technology = { motorised_infantry = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = tech_logistics_company
+			}
+			set_technology = { tech_logistics_company = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = tech_maintenance_company
+			}
+			set_technology = { tech_maintenance_company = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = tech_military_police
+			}
+			set_technology = { tech_military_police = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = tech_signal_company
+			}
+			set_technology = { tech_signal_company = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = tech_field_hospital
+			}
+			set_technology = { tech_field_hospital = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = infantry_weapons1
+			}
+			set_technology = { infantry_weapons1 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = tech_engineers2
+			}
+			set_technology = { tech_engineers2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = tech_recon2
+			}
+			set_technology = { tech_recon2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = tech_logistics_company2
+			}
+			set_technology = { tech_logistics_company2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = tech_signal_company2
+			}
+			set_technology = { tech_signal_company2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = night_vision
+			}
+			set_technology = { night_vision = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = support_weapons2
+			}
+			set_technology = { support_weapons2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = infantry_at
+			}
+			set_technology = { infantry_at = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = improved_infantry_weapons
+			}
+			set_technology = { improved_infantry_weapons = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = mechanised_infantry
+			}
+			set_technology = { mechanised_infantry = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = tech_field_hospital2
+			}
+			set_technology = { tech_field_hospital2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = tech_maintenance_company2
+			}
+			set_technology = { tech_maintenance_company2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = tech_military_police2
+			}
+			set_technology = { tech_military_police2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = infantry_weapons2
+			}
+			set_technology = { infantry_weapons2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = support_weapons3
+			}
+			set_technology = { support_weapons3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = night_vision2
+			}
+			set_technology = { night_vision2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = tech_engineers3
+			}
+			set_technology = { tech_engineers3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = tech_recon3
+			}
+			set_technology = { tech_recon3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = tech_logistics_company3
+			}
+			set_technology = { tech_logistics_company3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = tech_signal_company3
+			}
+			set_technology = { tech_signal_company3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = mechanised_infantry2
+			}
+			set_technology = { mechanised_infantry2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = infantry_at2
+			}
+			set_technology = { infantry_at2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = improved_infantry_weapons_2
+			}
+			set_technology = { improved_infantry_weapons_2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1944.1.1
+				can_research = support_weapons4
+			}
+			set_technology = { support_weapons4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+	}
+}
+
+ai_ctrl_research_try_electronics = {
+	if = {
+		limit = { check_variable = { ai_ctrl_picked = 0 } }
+		if = {
+			limit = {
+				can_research = electronic_mechanical_engineering
+			}
+			set_technology = { electronic_mechanical_engineering = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = radio
+			}
+			set_technology = { radio = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = mechanical_computing
+			}
+			set_technology = { mechanical_computing = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1937.1.1
+				can_research = radio_detection
+			}
+			set_technology = { radio_detection = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = computing_machine
+			}
+			set_technology = { computing_machine = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = decimetric_radar
+			}
+			set_technology = { decimetric_radar = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = improved_computing_machine
+			}
+			set_technology = { improved_computing_machine = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = improved_decimetric_radar
+			}
+			set_technology = { improved_decimetric_radar = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = advanced_computing_machine
+			}
+			set_technology = { advanced_computing_machine = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+	}
+}
+
+ai_ctrl_research_try_artillery = {
+	if = {
+		limit = { check_variable = { ai_ctrl_picked = 0 } }
+		if = {
+			limit = {
+				can_research = gw_artillery
+			}
+			set_technology = { gw_artillery = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = interwar_artillery
+			}
+			set_technology = { interwar_artillery = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = interwar_antitank
+			}
+			set_technology = { interwar_antitank = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = interwar_antiair
+			}
+			set_technology = { interwar_antiair = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = artillery1
+			}
+			set_technology = { artillery1 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = artillery2
+			}
+			set_technology = { artillery2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = antitank2
+			}
+			set_technology = { antitank2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = antiair2
+			}
+			set_technology = { antiair2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = artillery3
+			}
+			set_technology = { artillery3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = rocket_artillery
+			}
+			set_technology = { rocket_artillery = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = artillery4
+			}
+			set_technology = { artillery4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = antitank3
+			}
+			set_technology = { antitank3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = antiair3
+			}
+			set_technology = { antiair3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = rocket_artillery2
+			}
+			set_technology = { rocket_artillery2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = artillery5
+			}
+			set_technology = { artillery5 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = antitank4
+			}
+			set_technology = { antitank4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = antiair4
+			}
+			set_technology = { antiair4 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = rocket_artillery3
+			}
+			set_technology = { rocket_artillery3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = antitank5
+			}
+			set_technology = { antitank5 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = antiair5
+			}
+			set_technology = { antiair5 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+	}
+}
+
+ai_ctrl_research_try_armor_air = {
+	if = {
+		limit = { check_variable = { ai_ctrl_picked = 0 } }
+		if = {
+			limit = {
+				can_research = early_fighter
+			}
+			set_technology = { early_fighter = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = gwtank_chassis
+			}
+			set_technology = { gwtank_chassis = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				can_research = basic_light_tank_chassis
+			}
+			set_technology = { basic_light_tank_chassis = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1936.1.1
+				can_research = cas1
+			}
+			set_technology = { cas1 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1938.1.1
+				can_research = basic_medium_tank_chassis
+			}
+			set_technology = { basic_medium_tank_chassis = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1939.1.1
+				can_research = improved_light_tank_chassis
+			}
+			set_technology = { improved_light_tank_chassis = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = fighter1
+			}
+			set_technology = { fighter1 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1940.1.1
+				can_research = cas2
+			}
+			set_technology = { cas2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = improved_medium_tank_chassis
+			}
+			set_technology = { improved_medium_tank_chassis = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1941.1.1
+				can_research = advanced_light_tank_chassis
+			}
+			set_technology = { advanced_light_tank_chassis = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1942.1.1
+				can_research = fighter2
+			}
+			set_technology = { fighter2 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1943.1.1
+				can_research = advanced_medium_tank_chassis
+			}
+			set_technology = { advanced_medium_tank_chassis = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1944.1.1
+				can_research = cas3
+			}
+			set_technology = { cas3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+		else_if = {
+			limit = {
+				date > 1944.1.1
+				can_research = fighter3
+			}
+			set_technology = { fighter3 = 1 popup = yes }
+			set_temp_variable = { ai_ctrl_picked = 1 }
+		}
+	}
+}

@@ -1,0 +1,189 @@
+###############################################################################
+# AI Control Panel - construction
+#
+# The engine does not let script read the construction queue, so the mod
+# keeps its own estimate of how much work it has queued (ai_ctrl_con_backlog,
+# in construction points).  Every week the estimate drops by what your free
+# civilian factories can build in a week, and the AI queues new projects
+# until there is enough work to keep every factory busy (one project per 15
+# factories, plus one spare).
+#
+# Strategy (ai_ctrl_con_strategy):
+#   0 = Auto      - civilian factories in peacetime until 1938, then mostly
+#                   military factories (1 civilian for every 3 military)
+#   1 = Civilian  - civilian factories only
+#   2 = Military  - military factories only
+# Infrastructure is built whenever no factory slots are left.
+###############################################################################
+
+ai_ctrl_run_construction = {
+	set_temp_variable = { ai_ctrl_civs = num_of_available_civilian_factories }
+
+	# construction speed bonus (e.g. from construction techs / laws)
+	set_temp_variable = { ai_ctrl_speed = modifier@production_speed_buildings_factor }
+	add_to_temp_variable = { ai_ctrl_speed = 1 }
+	clamp_temp_variable = { var = ai_ctrl_speed min = 0.25 max = 5 }
+
+	# 5 construction points per factory per day, 7 days a week
+	set_temp_variable = { ai_ctrl_weekly = ai_ctrl_civs }
+	multiply_temp_variable = { ai_ctrl_weekly = 35 }
+	multiply_temp_variable = { ai_ctrl_weekly = ai_ctrl_speed }
+
+	subtract_from_variable = { ai_ctrl_con_backlog = ai_ctrl_weekly }
+	clamp_variable = { var = ai_ctrl_con_backlog min = 0 max = 1000000 }
+
+	# target: one ~10000 point project per 15 free factories, plus one spare
+	set_temp_variable = { ai_ctrl_target = ai_ctrl_civs }
+	divide_temp_variable = { ai_ctrl_target = 15 }
+	add_to_temp_variable = { ai_ctrl_target = 1 }
+	multiply_temp_variable = { ai_ctrl_target = 10000 }
+
+	set_temp_variable = { ai_ctrl_iter = 0 }
+	while_loop_effect = {
+		limit = {
+			check_variable = { ai_ctrl_civs > 0 }
+			check_variable = { ai_ctrl_con_backlog < ai_ctrl_target }
+			check_variable = { ai_ctrl_iter < 4 }
+		}
+		add_to_temp_variable = { ai_ctrl_iter = 1 }
+
+		ai_ctrl_construction_queue_one = yes
+
+		if = {
+			limit = { check_variable = { ai_ctrl_built = 0 } }
+			# nowhere left to build - stop for this week
+			set_temp_variable = { ai_ctrl_iter = 99 }
+		}
+	}
+}
+
+ai_ctrl_construction_queue_one = {
+	set_temp_variable = { ai_ctrl_built = 0 }
+
+	ai_ctrl_construction_choose_type = yes
+
+	if = {
+		limit = { check_variable = { ai_ctrl_btype = 1 } }
+		ai_ctrl_build_factory_civilian = yes
+	}
+	else = {
+		ai_ctrl_build_factory_military = yes
+	}
+
+	if = {
+		limit = { check_variable = { ai_ctrl_built = 0 } }
+		ai_ctrl_build_infrastructure = yes
+	}
+
+	if = {
+		limit = { check_variable = { ai_ctrl_built = 1 } }
+		add_to_variable = { ai_ctrl_con_queued = 1 }
+	}
+}
+
+# Sets temp variable ai_ctrl_btype: 1 = civilian factory, 2 = military factory
+ai_ctrl_construction_choose_type = {
+	set_temp_variable = { ai_ctrl_btype = 1 }
+
+	if = {
+		limit = { check_variable = { ai_ctrl_con_strategy = 2 } }
+		set_temp_variable = { ai_ctrl_btype = 2 }
+	}
+	else_if = {
+		limit = {
+			check_variable = { ai_ctrl_con_strategy = 0 }
+			OR = {
+				has_war = yes
+				date > 1938.1.1
+				threat > 0.5
+			}
+		}
+		# war footing: 3 military factories for every civilian one
+		add_to_variable = { ai_ctrl_con_rotor = 1 }
+		set_temp_variable = { ai_ctrl_r = ai_ctrl_con_rotor }
+		modulo_temp_variable = { ai_ctrl_r = 4 }
+		if = {
+			limit = { NOT = { check_variable = { ai_ctrl_r = 0 } } }
+			set_temp_variable = { ai_ctrl_btype = 2 }
+		}
+	}
+}
+
+ai_ctrl_build_factory_civilian = {
+	if = {
+		limit = { any_owned_state = { ai_ctrl_is_prime_factory_state = yes } }
+		random_owned_controlled_state = {
+			limit = { ai_ctrl_is_prime_factory_state = yes }
+			add_building_construction = { type = industrial_complex level = 1 }
+			set_state_flag = { flag = ai_ctrl_recent_factory days = 45 value = 1 }
+		}
+		add_to_variable = { ai_ctrl_con_backlog = 10800 }
+		set_temp_variable = { ai_ctrl_built = 1 }
+	}
+	else_if = {
+		limit = { any_owned_state = { ai_ctrl_is_core_factory_state = yes } }
+		random_owned_controlled_state = {
+			limit = { ai_ctrl_is_core_factory_state = yes }
+			add_building_construction = { type = industrial_complex level = 1 }
+			set_state_flag = { flag = ai_ctrl_recent_factory days = 180 value = 1 }
+		}
+		add_to_variable = { ai_ctrl_con_backlog = 10800 }
+		set_temp_variable = { ai_ctrl_built = 1 }
+	}
+	else_if = {
+		limit = { any_owned_state = { ai_ctrl_is_any_factory_state = yes } }
+		random_owned_controlled_state = {
+			limit = { ai_ctrl_is_any_factory_state = yes }
+			add_building_construction = { type = industrial_complex level = 1 }
+			set_state_flag = { flag = ai_ctrl_recent_factory days = 180 value = 1 }
+		}
+		add_to_variable = { ai_ctrl_con_backlog = 10800 }
+		set_temp_variable = { ai_ctrl_built = 1 }
+	}
+}
+
+ai_ctrl_build_factory_military = {
+	if = {
+		limit = { any_owned_state = { ai_ctrl_is_prime_factory_state = yes } }
+		random_owned_controlled_state = {
+			limit = { ai_ctrl_is_prime_factory_state = yes }
+			add_building_construction = { type = arms_factory level = 1 }
+			set_state_flag = { flag = ai_ctrl_recent_factory days = 45 value = 1 }
+		}
+		add_to_variable = { ai_ctrl_con_backlog = 7200 }
+		set_temp_variable = { ai_ctrl_built = 1 }
+	}
+	else_if = {
+		limit = { any_owned_state = { ai_ctrl_is_core_factory_state = yes } }
+		random_owned_controlled_state = {
+			limit = { ai_ctrl_is_core_factory_state = yes }
+			add_building_construction = { type = arms_factory level = 1 }
+			set_state_flag = { flag = ai_ctrl_recent_factory days = 180 value = 1 }
+		}
+		add_to_variable = { ai_ctrl_con_backlog = 7200 }
+		set_temp_variable = { ai_ctrl_built = 1 }
+	}
+	else_if = {
+		limit = { any_owned_state = { ai_ctrl_is_any_factory_state = yes } }
+		random_owned_controlled_state = {
+			limit = { ai_ctrl_is_any_factory_state = yes }
+			add_building_construction = { type = arms_factory level = 1 }
+			set_state_flag = { flag = ai_ctrl_recent_factory days = 180 value = 1 }
+		}
+		add_to_variable = { ai_ctrl_con_backlog = 7200 }
+		set_temp_variable = { ai_ctrl_built = 1 }
+	}
+}
+
+ai_ctrl_build_infrastructure = {
+	if = {
+		limit = { any_owned_state = { ai_ctrl_is_infrastructure_state = yes } }
+		random_owned_controlled_state = {
+			limit = { ai_ctrl_is_infrastructure_state = yes }
+			add_building_construction = { type = infrastructure level = 1 }
+			set_state_flag = { flag = ai_ctrl_recent_infrastructure days = 180 value = 1 }
+		}
+		add_to_variable = { ai_ctrl_con_backlog = 5000 }
+		set_temp_variable = { ai_ctrl_built = 1 }
+	}
+}

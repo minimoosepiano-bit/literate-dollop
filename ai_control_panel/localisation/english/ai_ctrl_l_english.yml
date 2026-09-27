@@ -1,0 +1,55 @@
+﻿l_english:
+ # --- launcher ---
+ AI_CTRL_LAUNCHER:0 "AI Control"
+ AI_CTRL_LAUNCHER_TT:0 "Open or close the §YAI Control Panel§!.\nHere you can hand parts of your country over to the AI.\n\nA §Ggreen light§! means at least one part of your country is controlled by the AI.\n\n§gYou can drag this button anywhere on screen.§!"
+
+ # --- panel ---
+ AI_CTRL_TITLE:0 "AI Control Panel"
+ AI_CTRL_CLOSE_TT:0 "Close the panel. The AI keeps working in the background."
+ AI_CTRL_SUBTITLE:0 "Choose which parts of your country the AI runs for you. AI-controlled parts are handled automatically every week."
+
+ AI_CTRL_STATE_AI:0 "AI"
+ AI_CTRL_STATE_PLAYER:0 "Player"
+ AI_CTRL_TOGGLE_ON_TT:0 "The §YAI§! is in control.\nClick to take control back."
+ AI_CTRL_TOGGLE_OFF_TT:0 "§YYou§! are in control.\nClick to hand this over to the AI."
+
+ AI_CTRL_PRODUCTION_NAME:0 "Military Production"
+ AI_CTRL_PRODUCTION_DESC:0 "Idle military factories get new lines for whatever your army lacks most. Your own lines are kept."
+ AI_CTRL_PRODUCTION_STATS:0 "Lines opened by the AI: §Y[?ai_ctrl_prod_lines|0]§!"
+
+ AI_CTRL_NAVAL_NAME:0 "Naval Production"
+ AI_CTRL_NAVAL_DESC:0 "Idle dockyards build convoys until you have a reserve of 400."
+ AI_CTRL_NAVAL_STATS:0 "Lines opened by the AI: §Y[?ai_ctrl_naval_lines|0]§!"
+
+ AI_CTRL_CONSTRUCTION_NAME:0 "Construction"
+ AI_CTRL_CONSTRUCTION_DESC:0 "The AI keeps your construction queue busy with factories, or infrastructure when there are no slots left."
+ AI_CTRL_CONSTRUCTION_STATS:0 "Projects queued: §Y[?ai_ctrl_con_queued|0]§!   Strategy: §Y[AI_CTRL_GetStrategy]§!"
+ AI_CTRL_STRATEGY_BUTTON:0 "[AI_CTRL_GetStrategy]"
+ AI_CTRL_STRATEGY_BUTTON_TT:0 "Click to change what the AI builds.\n\n§YAuto§!: civilian factories in peacetime until 1938, then mostly military factories (3 military for every civilian).\n§YCivilian§!: civilian factories only.\n§YMilitary§!: military factories only."
+ AI_CTRL_STRATEGY_AUTO:0 "Auto"
+ AI_CTRL_STRATEGY_CIVILIAN:0 "Civilian"
+ AI_CTRL_STRATEGY_MILITARY:0 "Military"
+
+ AI_CTRL_RESEARCH_NAME:0 "Research"
+ AI_CTRL_RESEARCH_DESC:0 "The AI researches industry, land, electronics, artillery, armour and air techs at your research speed."
+ AI_CTRL_RESEARCH_STATS:0 "Techs researched: §Y[?ai_ctrl_res_done|0]§!   Next tech: §Y[?ai_ctrl_res_pct|0]%§!"
+ AI_CTRL_LOCK_BUTTON:0 "[AI_CTRL_GetLockState]"
+ AI_CTRL_LOCK_BUTTON_TT:0 "The AI's research uses your research slots and research speed.\n\n§YSlots locked§! (recommended): while the AI handles research, your own research slots make no progress, so you don't get research twice.\n§YSlots free§!: you can keep researching yourself as well. §RThis is much faster than normal.§!"
+ AI_CTRL_LOCK_ON:0 "Slots locked"
+ AI_CTRL_LOCK_OFF:0 "Slots free"
+
+ AI_CTRL_ENABLE_ALL:0 "All to AI"
+ AI_CTRL_ENABLE_ALL_TT:0 "Hand every part listed here over to the AI."
+ AI_CTRL_DISABLE_ALL:0 "All to Player"
+ AI_CTRL_DISABLE_ALL_TT:0 "Take back control of everything."
+ AI_CTRL_FOOTER_HINT:0 "§gThe AI checks in once a week.§!"
+
+ # --- decision (fallback way to open the panel) ---
+ ai_ctrl_category:0 "AI Control"
+ ai_ctrl_category_desc:0 "Hand parts of your country over to the AI."
+ ai_ctrl_open_panel:0 "Open the AI Control Panel"
+ ai_ctrl_open_panel_desc:0 "Opens the panel where you choose which parts of your country the AI controls."
+
+ # --- dynamic modifier ---
+ ai_ctrl_research_lock:0 "AI Research"
+ ai_ctrl_research_lock_desc:0 "The AI handles research for this country. Its own research slots are frozen."

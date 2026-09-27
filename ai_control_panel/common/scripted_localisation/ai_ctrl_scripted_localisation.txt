@@ -1,0 +1,29 @@
+###############################################################################
+# AI Control Panel - scripted localisation (dynamic text in the panel)
+###############################################################################
+
+defined_text = {
+	name = AI_CTRL_GetStrategy
+	text = {
+		trigger = { check_variable = { ai_ctrl_con_strategy = 1 } }
+		localization_key = AI_CTRL_STRATEGY_CIVILIAN
+	}
+	text = {
+		trigger = { check_variable = { ai_ctrl_con_strategy = 2 } }
+		localization_key = AI_CTRL_STRATEGY_MILITARY
+	}
+	text = {
+		localization_key = AI_CTRL_STRATEGY_AUTO
+	}
+}
+
+defined_text = {
+	name = AI_CTRL_GetLockState
+	text = {
+		trigger = { has_country_flag = ai_ctrl_research_lock_enabled }
+		localization_key = AI_CTRL_LOCK_ON
+	}
+	text = {
+		localization_key = AI_CTRL_LOCK_OFF
+	}
+}

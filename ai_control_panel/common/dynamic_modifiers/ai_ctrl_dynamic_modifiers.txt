@@ -1,0 +1,12 @@
+###############################################################################
+# AI Control Panel - dynamic modifiers
+###############################################################################
+
+# Applied while the AI handles research and the "lock manual research"
+# option is on. ai_ctrl_research_lock_value is set to -(1 + your research
+# speed bonus), so your own research slots make no progress.
+ai_ctrl_research_lock = {
+	icon = GFX_idea_ai_ctrl_research_lock
+
+	research_speed_factor = ai_ctrl_research_lock_value
+}

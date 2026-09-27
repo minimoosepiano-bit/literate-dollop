@@ -1,0 +1,105 @@
+###############################################################################
+# AI Control Panel - scripted GUIs
+#
+# ai_ctrl_launcher : small always-visible "AI Control" button
+# ai_ctrl_panel    : the main panel with one row per AI module
+#
+# Both use player_context, so ROOT is always the player's own country and
+# every click is synchronised in multiplayer.
+###############################################################################
+
+scripted_gui = {
+
+	ai_ctrl_launcher = {
+		context_type = player_context
+		window_name = "ai_ctrl_launcher_window"
+
+		visible = {
+			is_ai = no
+		}
+
+		effects = {
+			launcher_button_click = {
+				ai_ctrl_init = yes
+				if = {
+					limit = { has_country_flag = ai_ctrl_panel_open }
+					clr_country_flag = ai_ctrl_panel_open
+				}
+				else = {
+					set_country_flag = ai_ctrl_panel_open
+				}
+			}
+		}
+
+		triggers = {
+			# small light on the launcher while any module is AI controlled
+			launcher_active_light_visible = {
+				ai_ctrl_any_module_active = yes
+			}
+		}
+	}
+
+	ai_ctrl_panel = {
+		context_type = player_context
+		window_name = "ai_ctrl_panel_window"
+
+		visible = {
+			is_ai = no
+			has_country_flag = ai_ctrl_panel_open
+		}
+
+		effects = {
+			close_button_click = {
+				clr_country_flag = ai_ctrl_panel_open
+			}
+
+			# --- military production ---
+			production_toggle_off_click = { ai_ctrl_enable_production = yes }
+			production_toggle_on_click = { ai_ctrl_disable_production = yes }
+
+			# --- naval production ---
+			naval_toggle_off_click = { ai_ctrl_enable_naval = yes }
+			naval_toggle_on_click = { ai_ctrl_disable_naval = yes }
+
+			# --- construction ---
+			construction_toggle_off_click = { ai_ctrl_enable_construction = yes }
+			construction_toggle_on_click = { ai_ctrl_disable_construction = yes }
+			construction_strategy_button_click = { ai_ctrl_cycle_construction_strategy = yes }
+
+			# --- research ---
+			research_toggle_off_click = { ai_ctrl_enable_research = yes }
+			research_toggle_on_click = { ai_ctrl_disable_research = yes }
+			research_lock_button_click = { ai_ctrl_toggle_research_lock = yes }
+
+			# --- footer ---
+			enable_all_button_click = { ai_ctrl_enable_all = yes }
+			disable_all_button_click = { ai_ctrl_disable_all = yes }
+		}
+
+		triggers = {
+			production_toggle_on_visible = { has_country_flag = ai_ctrl_production }
+			production_toggle_off_visible = { NOT = { has_country_flag = ai_ctrl_production } }
+
+			naval_toggle_on_visible = { has_country_flag = ai_ctrl_naval }
+			naval_toggle_off_visible = { NOT = { has_country_flag = ai_ctrl_naval } }
+
+			construction_toggle_on_visible = { has_country_flag = ai_ctrl_construction }
+			construction_toggle_off_visible = { NOT = { has_country_flag = ai_ctrl_construction } }
+
+			research_toggle_on_visible = { has_country_flag = ai_ctrl_research }
+			research_toggle_off_visible = { NOT = { has_country_flag = ai_ctrl_research } }
+
+			enable_all_button_click_enabled = {
+				OR = {
+					NOT = { has_country_flag = ai_ctrl_production }
+					NOT = { has_country_flag = ai_ctrl_naval }
+					NOT = { has_country_flag = ai_ctrl_construction }
+					NOT = { has_country_flag = ai_ctrl_research }
+				}
+			}
+			disable_all_button_click_enabled = {
+				ai_ctrl_any_module_active = yes
+			}
+		}
+	}
+}

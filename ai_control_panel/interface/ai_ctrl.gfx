@@ -1,0 +1,46 @@
+# AI Control Panel - sprites
+
+spriteTypes = {
+	spriteType = {
+		name = "GFX_ai_ctrl_panel_bg"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_panel_bg.dds"
+	}
+	spriteType = {
+		name = "GFX_ai_ctrl_toggle_on"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_toggle_on.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+	}
+	spriteType = {
+		name = "GFX_ai_ctrl_toggle_off"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_toggle_off.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+	}
+	spriteType = {
+		name = "GFX_ai_ctrl_button"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_button.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+	}
+	spriteType = {
+		name = "GFX_ai_ctrl_button_small"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_button_small.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+	}
+	spriteType = {
+		name = "GFX_ai_ctrl_launcher"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_launcher.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+	}
+	spriteType = {
+		name = "GFX_ai_ctrl_close"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_close.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+	}
+	spriteType = {
+		name = "GFX_ai_ctrl_light"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_light.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_ai_ctrl_research_lock"
+		texturefile = "gfx/interface/ai_control_panel/ai_ctrl_research_lock.dds"
+	}
+}

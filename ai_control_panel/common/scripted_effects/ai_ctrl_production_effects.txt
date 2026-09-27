@@ -1,0 +1,284 @@
+###############################################################################
+# AI Control Panel - production (military factories & dockyards)
+#
+# Once a week the AI looks at how many military factories are idle and
+# opens new production lines for them, picking whatever equipment the army
+# is shortest of.  It never touches lines that already exist, so anything
+# you set up yourself keeps running.
+#
+# Only equipment that does not need the tank / plane / ship designer can be
+# produced from script, so the AI handles land equipment and convoys.
+#
+# Equipment ids used by the picker:
+#   1 = infantry equipment   4 = anti-tank
+#   2 = support equipment    5 = anti-air
+#   3 = artillery            6 = trucks (motorized)
+###############################################################################
+
+ai_ctrl_run_production = {
+	set_temp_variable = { ai_ctrl_free = num_of_available_military_factories }
+	set_temp_variable = { ai_ctrl_iter = 0 }
+
+	while_loop_effect = {
+		limit = {
+			check_variable = { ai_ctrl_free > 0 }
+			check_variable = { ai_ctrl_iter < 3 }
+		}
+		add_to_temp_variable = { ai_ctrl_iter = 1 }
+
+		ai_ctrl_production_pick = yes
+
+		if = {
+			limit = { check_variable = { ai_ctrl_pick = 0 } }
+			# nothing we can produce - stop for this week
+			set_temp_variable = { ai_ctrl_free = 0 }
+		}
+		else = {
+			ai_ctrl_production_add_line = yes
+			# every new line asks for 10 factories; lines that get fewer
+			# will soak up newly built factories later, like the AI does
+			subtract_from_temp_variable = { ai_ctrl_free = 10 }
+			add_to_variable = { ai_ctrl_prod_lines = 1 }
+		}
+	}
+}
+
+# Scores each equipment type by how well stocked it is compared to what the
+# army needs (lower score = more urgent) and stores the most urgent one in
+# the temp variable ai_ctrl_pick.  Equipment that got a line recently is on
+# a cooldown so the next line goes to something else.
+ai_ctrl_production_pick = {
+	set_temp_variable = { ai_ctrl_pick = 0 }
+	set_temp_variable = { ai_ctrl_best = 1000000 }
+
+	# 1 - infantry equipment (slightly favoured, like the real AI)
+	if = {
+		limit = {
+			has_tech = infantry_weapons
+			NOT = { has_country_flag = ai_ctrl_cd_infantry }
+		}
+		set_temp_variable = { ai_ctrl_have = num_equipment@infantry_equipment }
+		add_to_temp_variable = { ai_ctrl_have = num_equipment_in_armies@infantry_equipment }
+		set_temp_variable = { ai_ctrl_need = num_target_equipment_in_armies@infantry_equipment }
+		add_to_temp_variable = { ai_ctrl_need = 2000 }
+		# (need / 100) first: HoI4 variables overflow around 2.1 million
+		divide_temp_variable = { ai_ctrl_need = 100 }
+		set_temp_variable = { ai_ctrl_score = ai_ctrl_have }
+		divide_temp_variable = { ai_ctrl_score = ai_ctrl_need }
+		multiply_temp_variable = { ai_ctrl_score = 0.8 }
+		if = {
+			limit = { check_variable = { ai_ctrl_score < ai_ctrl_best } }
+			set_temp_variable = { ai_ctrl_best = ai_ctrl_score }
+			set_temp_variable = { ai_ctrl_pick = 1 }
+		}
+	}
+
+	# 2 - support equipment
+	if = {
+		limit = {
+			has_tech = support_weapons
+			NOT = { has_country_flag = ai_ctrl_cd_support }
+		}
+		set_temp_variable = { ai_ctrl_have = num_equipment@support_equipment }
+		add_to_temp_variable = { ai_ctrl_have = num_equipment_in_armies@support_equipment }
+		set_temp_variable = { ai_ctrl_need = num_target_equipment_in_armies@support_equipment }
+		add_to_temp_variable = { ai_ctrl_need = 200 }
+		# (need / 100) first: HoI4 variables overflow around 2.1 million
+		divide_temp_variable = { ai_ctrl_need = 100 }
+		set_temp_variable = { ai_ctrl_score = ai_ctrl_have }
+		divide_temp_variable = { ai_ctrl_score = ai_ctrl_need }
+		if = {
+			limit = { check_variable = { ai_ctrl_score < ai_ctrl_best } }
+			set_temp_variable = { ai_ctrl_best = ai_ctrl_score }
+			set_temp_variable = { ai_ctrl_pick = 2 }
+		}
+	}
+
+	# 3 - artillery
+	if = {
+		limit = {
+			has_tech = gw_artillery
+			NOT = { has_country_flag = ai_ctrl_cd_artillery }
+		}
+		set_temp_variable = { ai_ctrl_have = num_equipment@artillery_equipment }
+		add_to_temp_variable = { ai_ctrl_have = num_equipment_in_armies@artillery_equipment }
+		set_temp_variable = { ai_ctrl_need = num_target_equipment_in_armies@artillery_equipment }
+		add_to_temp_variable = { ai_ctrl_need = 300 }
+		# (need / 100) first: HoI4 variables overflow around 2.1 million
+		divide_temp_variable = { ai_ctrl_need = 100 }
+		set_temp_variable = { ai_ctrl_score = ai_ctrl_have }
+		divide_temp_variable = { ai_ctrl_score = ai_ctrl_need }
+		if = {
+			limit = { check_variable = { ai_ctrl_score < ai_ctrl_best } }
+			set_temp_variable = { ai_ctrl_best = ai_ctrl_score }
+			set_temp_variable = { ai_ctrl_pick = 3 }
+		}
+	}
+
+	# 4 - anti-tank
+	if = {
+		limit = {
+			has_tech = interwar_antitank
+			NOT = { has_country_flag = ai_ctrl_cd_antitank }
+		}
+		set_temp_variable = { ai_ctrl_have = num_equipment@anti_tank_equipment }
+		add_to_temp_variable = { ai_ctrl_have = num_equipment_in_armies@anti_tank_equipment }
+		set_temp_variable = { ai_ctrl_need = num_target_equipment_in_armies@anti_tank_equipment }
+		add_to_temp_variable = { ai_ctrl_need = 150 }
+		# (need / 100) first: HoI4 variables overflow around 2.1 million
+		divide_temp_variable = { ai_ctrl_need = 100 }
+		set_temp_variable = { ai_ctrl_score = ai_ctrl_have }
+		divide_temp_variable = { ai_ctrl_score = ai_ctrl_need }
+		multiply_temp_variable = { ai_ctrl_score = 1.2 }
+		if = {
+			limit = { check_variable = { ai_ctrl_score < ai_ctrl_best } }
+			set_temp_variable = { ai_ctrl_best = ai_ctrl_score }
+			set_temp_variable = { ai_ctrl_pick = 4 }
+		}
+	}
+
+	# 5 - anti-air
+	if = {
+		limit = {
+			has_tech = interwar_antiair
+			NOT = { has_country_flag = ai_ctrl_cd_antiair }
+		}
+		set_temp_variable = { ai_ctrl_have = num_equipment@anti_air_equipment }
+		add_to_temp_variable = { ai_ctrl_have = num_equipment_in_armies@anti_air_equipment }
+		set_temp_variable = { ai_ctrl_need = num_target_equipment_in_armies@anti_air_equipment }
+		add_to_temp_variable = { ai_ctrl_need = 150 }
+		# (need / 100) first: HoI4 variables overflow around 2.1 million
+		divide_temp_variable = { ai_ctrl_need = 100 }
+		set_temp_variable = { ai_ctrl_score = ai_ctrl_have }
+		divide_temp_variable = { ai_ctrl_score = ai_ctrl_need }
+		multiply_temp_variable = { ai_ctrl_score = 1.2 }
+		if = {
+			limit = { check_variable = { ai_ctrl_score < ai_ctrl_best } }
+			set_temp_variable = { ai_ctrl_best = ai_ctrl_score }
+			set_temp_variable = { ai_ctrl_pick = 5 }
+		}
+	}
+
+	# 6 - trucks
+	if = {
+		limit = {
+			has_tech = motorised_infantry
+			NOT = { has_country_flag = ai_ctrl_cd_motorized }
+		}
+		set_temp_variable = { ai_ctrl_have = num_equipment@motorized_equipment }
+		add_to_temp_variable = { ai_ctrl_have = num_equipment_in_armies@motorized_equipment }
+		set_temp_variable = { ai_ctrl_need = num_target_equipment_in_armies@motorized_equipment }
+		add_to_temp_variable = { ai_ctrl_need = 200 }
+		# (need / 100) first: HoI4 variables overflow around 2.1 million
+		divide_temp_variable = { ai_ctrl_need = 100 }
+		set_temp_variable = { ai_ctrl_score = ai_ctrl_have }
+		divide_temp_variable = { ai_ctrl_score = ai_ctrl_need }
+		multiply_temp_variable = { ai_ctrl_score = 1.1 }
+		if = {
+			limit = { check_variable = { ai_ctrl_score < ai_ctrl_best } }
+			set_temp_variable = { ai_ctrl_best = ai_ctrl_score }
+			set_temp_variable = { ai_ctrl_pick = 6 }
+		}
+	}
+
+	# everything is on cooldown: fall back to rifles, the AI's default
+	if = {
+		limit = {
+			check_variable = { ai_ctrl_pick = 0 }
+			has_tech = infantry_weapons
+		}
+		set_temp_variable = { ai_ctrl_pick = 1 }
+	}
+}
+
+# Opens a production line for the equipment in ai_ctrl_pick, using the best
+# model the country has researched.
+ai_ctrl_production_add_line = {
+	if = {
+		limit = { check_variable = { ai_ctrl_pick = 1 } }
+		set_country_flag = { flag = ai_ctrl_cd_infantry days = 45 value = 1 }
+		if = {
+			limit = { has_tech = infantry_weapons2 }
+			add_equipment_production = {
+				equipment = { type = infantry_equipment_3 creator = ROOT }
+				requested_factories = 10
+			}
+		}
+		else_if = {
+			limit = { has_tech = infantry_weapons1 }
+			add_equipment_production = {
+				equipment = { type = infantry_equipment_2 creator = ROOT }
+				requested_factories = 10
+			}
+		}
+		else = {
+			add_equipment_production = {
+				equipment = { type = infantry_equipment_1 creator = ROOT }
+				requested_factories = 10
+			}
+		}
+	}
+	else_if = {
+		limit = { check_variable = { ai_ctrl_pick = 2 } }
+		set_country_flag = { flag = ai_ctrl_cd_support days = 90 value = 1 }
+		add_equipment_production = {
+			equipment = { type = support_equipment_1 creator = ROOT }
+			requested_factories = 10
+		}
+	}
+	else_if = {
+		limit = { check_variable = { ai_ctrl_pick = 3 } }
+		set_country_flag = { flag = ai_ctrl_cd_artillery days = 60 value = 1 }
+		add_equipment_production = {
+			equipment = { type = artillery_equipment_1 creator = ROOT }
+			requested_factories = 10
+		}
+	}
+	else_if = {
+		limit = { check_variable = { ai_ctrl_pick = 4 } }
+		set_country_flag = { flag = ai_ctrl_cd_antitank days = 90 value = 1 }
+		add_equipment_production = {
+			equipment = { type = anti_tank_equipment_1 creator = ROOT }
+			requested_factories = 10
+		}
+	}
+	else_if = {
+		limit = { check_variable = { ai_ctrl_pick = 5 } }
+		set_country_flag = { flag = ai_ctrl_cd_antiair days = 90 value = 1 }
+		add_equipment_production = {
+			equipment = { type = anti_air_equipment_1 creator = ROOT }
+			requested_factories = 10
+		}
+	}
+	else_if = {
+		limit = { check_variable = { ai_ctrl_pick = 6 } }
+		set_country_flag = { flag = ai_ctrl_cd_motorized days = 90 value = 1 }
+		add_equipment_production = {
+			equipment = { type = motorized_equipment_1 creator = ROOT }
+			requested_factories = 10
+		}
+	}
+}
+
+###############################################################################
+# Naval: idle dockyards build convoys until there is a healthy reserve.
+###############################################################################
+
+ai_ctrl_run_naval = {
+	if = {
+		limit = {
+			num_of_available_naval_factories > 0
+			NOT = { has_country_flag = ai_ctrl_cd_convoy }
+		}
+		set_temp_variable = { ai_ctrl_convoys = num_equipment@convoy }
+		if = {
+			limit = { check_variable = { ai_ctrl_convoys < 400 } }
+			add_equipment_production = {
+				equipment = { type = convoy_1 creator = ROOT }
+				requested_factories = 5
+			}
+			set_country_flag = { flag = ai_ctrl_cd_convoy days = 30 value = 1 }
+			add_to_variable = { ai_ctrl_naval_lines = 1 }
+		}
+	}
+}

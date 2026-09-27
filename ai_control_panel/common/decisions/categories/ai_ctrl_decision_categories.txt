@@ -1,0 +1,11 @@
+###############################################################################
+# AI Control Panel - decision category
+# A fallback way to open the panel in case the on-screen button is hidden
+# by another mod's interface.
+###############################################################################
+
+ai_ctrl_category = {
+	allowed = { always = yes }
+	visible = { is_ai = no }
+	priority = 1
+}

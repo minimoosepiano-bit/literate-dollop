@@ -1,0 +1,166 @@
+###############################################################################
+# AI Control Panel - research
+#
+# Script cannot start research in a slot, so the AI does its research
+# "off the books": every week it earns research progress based on your
+# number of research slots and your research speed bonus, and each time it
+# has enough it completes a technology from its priority lists
+# (see ai_ctrl_research_lists.txt).
+#
+# To keep things fair, the "lock" option (on by default) freezes your own
+# research slots while the AI is in charge, using the dynamic modifier
+# ai_ctrl_research_lock.  Its value is recalculated weekly to cancel your
+# exact research speed bonus, so slot speed ends up at 0%.
+###############################################################################
+
+ai_ctrl_run_research = {
+	ai_ctrl_update_research_lock = yes
+	ai_ctrl_update_research_cost = yes
+
+	# weekly progress = slots * 7 days * (1 + research speed bonus)
+	set_temp_variable = { ai_ctrl_speed = ai_ctrl_res_bonus }
+	add_to_temp_variable = { ai_ctrl_speed = 1 }
+	clamp_temp_variable = { var = ai_ctrl_speed min = 0.1 max = 3 }
+
+	set_temp_variable = { ai_ctrl_weekly = amount_research_slots }
+	multiply_temp_variable = { ai_ctrl_weekly = 7 }
+	multiply_temp_variable = { ai_ctrl_weekly = ai_ctrl_speed }
+	add_to_variable = { ai_ctrl_res_progress = ai_ctrl_weekly }
+
+	set_temp_variable = { ai_ctrl_iter = 0 }
+	while_loop_effect = {
+		limit = {
+			check_variable = { ai_ctrl_res_progress > ai_ctrl_res_cost }
+			check_variable = { ai_ctrl_iter < 3 }
+		}
+		add_to_temp_variable = { ai_ctrl_iter = 1 }
+
+		ai_ctrl_research_pick = yes
+
+		if = {
+			limit = { check_variable = { ai_ctrl_picked = 1 } }
+			subtract_from_variable = { ai_ctrl_res_progress = ai_ctrl_res_cost }
+			add_to_variable = { ai_ctrl_res_done = 1 }
+		}
+		else = {
+			# nothing available yet (e.g. waiting for next year's techs):
+			# bank at most one tech worth of progress
+			set_variable = { ai_ctrl_res_progress = ai_ctrl_res_cost }
+			set_temp_variable = { ai_ctrl_iter = 99 }
+		}
+	}
+
+	# progress % shown in the panel
+	set_variable = { ai_ctrl_res_pct = ai_ctrl_res_progress }
+	multiply_variable = { ai_ctrl_res_pct = 100 }
+	divide_variable = { ai_ctrl_res_pct = ai_ctrl_res_cost }
+	clamp_variable = { var = ai_ctrl_res_pct min = 0 max = 100 }
+}
+
+# Later technologies take longer, as in the base game.
+# Cost is in "slot-days at +0% research speed".
+ai_ctrl_update_research_cost = {
+	if = {
+		limit = { date > 1942.1.1 }
+		set_variable = { ai_ctrl_res_cost = 190 }
+	}
+	else_if = {
+		limit = { date > 1940.1.1 }
+		set_variable = { ai_ctrl_res_cost = 170 }
+	}
+	else_if = {
+		limit = { date > 1938.1.1 }
+		set_variable = { ai_ctrl_res_cost = 150 }
+	}
+	else = {
+		set_variable = { ai_ctrl_res_cost = 130 }
+	}
+}
+
+# Chooses a category in a weighted rotation (industry 3/8, land 2/8,
+# electronics 1/8, artillery 1/8, armour & air 1/8) and falls back to the
+# other categories if nothing in the preferred one is available.
+# Sets temp variable ai_ctrl_picked = 1 when a technology was granted.
+ai_ctrl_research_pick = {
+	set_temp_variable = { ai_ctrl_picked = 0 }
+	set_temp_variable = { ai_ctrl_r = ai_ctrl_res_rotor }
+	modulo_temp_variable = { ai_ctrl_r = 8 }
+	add_to_variable = { ai_ctrl_res_rotor = 1 }
+
+	if = {
+		limit = {
+			OR = {
+				check_variable = { ai_ctrl_r = 0 }
+				check_variable = { ai_ctrl_r = 2 }
+				check_variable = { ai_ctrl_r = 6 }
+			}
+		}
+		ai_ctrl_research_try_industry = yes
+	}
+	else_if = {
+		limit = {
+			OR = {
+				check_variable = { ai_ctrl_r = 1 }
+				check_variable = { ai_ctrl_r = 4 }
+			}
+		}
+		ai_ctrl_research_try_land = yes
+	}
+	else_if = {
+		limit = { check_variable = { ai_ctrl_r = 3 } }
+		ai_ctrl_research_try_electronics = yes
+	}
+	else_if = {
+		limit = { check_variable = { ai_ctrl_r = 5 } }
+		ai_ctrl_research_try_artillery = yes
+	}
+	else = {
+		ai_ctrl_research_try_armor_air = yes
+	}
+
+	# fallbacks - each one does nothing once something was picked
+	ai_ctrl_research_try_industry = yes
+	ai_ctrl_research_try_land = yes
+	ai_ctrl_research_try_electronics = yes
+	ai_ctrl_research_try_artillery = yes
+	ai_ctrl_research_try_armor_air = yes
+}
+
+###############################################################################
+# Manual research lock
+###############################################################################
+
+ai_ctrl_update_research_lock = {
+	# modifier@research_speed_factor includes the lock itself, so take the
+	# current lock value back out to get the real bonus
+	set_variable = { ai_ctrl_res_bonus = modifier@research_speed_factor }
+	if = {
+		limit = { has_dynamic_modifier = { modifier = ai_ctrl_research_lock } }
+		subtract_from_variable = { ai_ctrl_res_bonus = ai_ctrl_research_lock_value }
+	}
+	clamp_variable = { var = ai_ctrl_res_bonus min = -0.9 max = 2 }
+
+	if = {
+		limit = { ai_ctrl_research_lock_wanted = yes }
+		# lock = -(1 + bonus)  =>  total slot speed = 1 + bonus + lock = 0
+		set_variable = { ai_ctrl_research_lock_value = ai_ctrl_res_bonus }
+		add_to_variable = { ai_ctrl_research_lock_value = 1 }
+		multiply_variable = { ai_ctrl_research_lock_value = -1 }
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = ai_ctrl_research_lock } } }
+			add_dynamic_modifier = { modifier = ai_ctrl_research_lock }
+		}
+		force_update_dynamic_modifier = yes
+	}
+	else = {
+		ai_ctrl_remove_research_lock = yes
+	}
+}
+
+ai_ctrl_remove_research_lock = {
+	if = {
+		limit = { has_dynamic_modifier = { modifier = ai_ctrl_research_lock } }
+		remove_dynamic_modifier = { modifier = ai_ctrl_research_lock }
+	}
+	set_variable = { ai_ctrl_research_lock_value = 0 }
+}

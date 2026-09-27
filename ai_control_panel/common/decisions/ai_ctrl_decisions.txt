@@ -1,0 +1,25 @@
+###############################################################################
+# AI Control Panel - decisions
+###############################################################################
+
+ai_ctrl_category = {
+
+	ai_ctrl_open_panel = {
+		allowed = { always = yes }
+		visible = {
+			is_ai = no
+			NOT = { has_country_flag = ai_ctrl_panel_open }
+		}
+		available = { always = yes }
+
+		cost = 0
+		fire_only_once = no
+
+		complete_effect = {
+			ai_ctrl_init = yes
+			set_country_flag = ai_ctrl_panel_open
+		}
+
+		ai_will_do = { factor = 0 }
+	}
+}
